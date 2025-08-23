@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'services/notification_service.dart';
+import 'services/database_service.dart';
+import 'services/message_seeder.dart';
+import 'models/schedule.dart';
+import 'widgets/schedule_card.dart';
+import 'widgets/schedule_form.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -8,6 +13,8 @@ void main() async {
   if (!kIsWeb) {
     await NotificationService.initialize();
   }
+  
+  await MessageSeeder.seedDatabase();
   
   runApp(const MyApp());
 }
@@ -36,12 +43,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double _motivationPercentage = 50.0;
-  TimeOfDay _dailyTime = const TimeOfDay(hour: 9, minute: 0);
-  String _frequency = 'Daily';
-  bool _notificationsEnabled = false;
+  List<Schedule> _schedules = [];
+  bool _isLoading = true;
 
-  final List<String> _frequencies = ['Daily', 'Weekly', 'Hourly'];
+  @override
+  void initState() {
+    super.initState();
+    _loadSchedules();
+  }
+
+  Future<void> _loadSchedules() async {
+    try {
+      final schedules = await DatabaseService.getAllSchedules();
+      setState(() {
+        _schedules = schedules;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,160 +72,187 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('I Am Not'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: _addNewSchedule,
+          ),
+        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Notification Schedule',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        const Text('Frequency: '),
-                        DropdownButton<String>(
-                          value: _frequency,
-                          onChanged: (String? newValue) {
-                            if (newValue != null) {
-                              setState(() {
-                                _frequency = newValue;
-                              });
-                            }
-                          },
-                          items: _frequencies.map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        const Text('Time: '),
-                        TextButton(
-                          onPressed: () async {
-                            final TimeOfDay? picked = await showTimePicker(
-                              context: context,
-                              initialTime: _dailyTime,
-                            );
-                            if (picked != null && picked != _dailyTime) {
-                              setState(() {
-                                _dailyTime = picked;
-                              });
-                            }
-                          },
-                          child: Text(_dailyTime.format(context)),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _schedules.isEmpty
+              ? _buildEmptyState()
+              : _buildScheduleList(),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.schedule,
+            size: 64,
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'No schedules yet',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const SizedBox(height: 8),
+          const Text('Add your first notification schedule'),
+          const SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: _addNewSchedule,
+            icon: const Icon(Icons.add),
+            label: const Text('Add Schedule'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildScheduleList() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: _schedules.length,
+              itemBuilder: (context, index) {
+                final schedule = _schedules[index];
+                return ScheduleCard(
+                  schedule: schedule,
+                  onToggle: () => _toggleSchedule(schedule),
+                  onEdit: () => _editSchedule(schedule),
+                  onDelete: () => _deleteSchedule(schedule),
+                );
+              },
             ),
-            const SizedBox(height: 16),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Message Type Balance',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    const SizedBox(height: 16),
-                    Text('Motivational: ${_motivationPercentage.round()}%'),
-                    Text('Demotivational: ${(100 - _motivationPercentage).round()}%'),
-                    const SizedBox(height: 8),
-                    Slider(
-                      value: _motivationPercentage,
-                      min: 0,
-                      max: 100,
-                      divisions: 10,
-                      onChanged: (double value) {
-                        setState(() {
-                          _motivationPercentage = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton.icon(
+            onPressed: _addNewSchedule,
+            icon: const Icon(Icons.add),
+            label: const Text('Add New Schedule'),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 16),
             ),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: _notificationsEnabled ? _disableNotifications : _enableNotifications,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: _notificationsEnabled ? Colors.red : Colors.green,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              child: Text(
-                _notificationsEnabled ? 'Disable Notifications' : 'Enable Notifications',
-                style: const TextStyle(fontSize: 18),
-              ),
-            ),
-          ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _addNewSchedule() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ScheduleForm(
+          onSave: _saveSchedule,
         ),
       ),
     );
   }
 
-  Future<void> _enableNotifications() async {
-    if (kIsWeb) {
+  void _editSchedule(Schedule schedule) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ScheduleForm(
+          initialSchedule: schedule,
+          onSave: _saveSchedule,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _saveSchedule(Schedule schedule) async {
+    try {
+      if (schedule.id == null) {
+        await DatabaseService.insertSchedule(schedule);
+      } else {
+        await DatabaseService.updateSchedule(schedule);
+      }
+      await _loadSchedules();
+      await _updateNotifications();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Notifications not supported on web. Use mobile app.')),
+          const SnackBar(content: Text('Schedule saved!')),
         );
       }
-      return;
-    }
-    
-    bool hasPermission = await NotificationService.requestPermissions();
-    if (hasPermission) {
-      await NotificationService.scheduleNotifications(
-        frequency: _frequency,
-        time: _dailyTime,
-        motivationPercentage: _motivationPercentage,
-      );
-      setState(() {
-        _notificationsEnabled = true;
-      });
+    } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Notifications enabled!')),
-        );
-      }
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Permission denied. Enable notifications in settings.')),
+          SnackBar(content: Text('Error saving schedule: $e')),
         );
       }
     }
   }
 
-  Future<void> _disableNotifications() async {
-    await NotificationService.cancelAllNotifications();
-    setState(() {
-      _notificationsEnabled = false;
-    });
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Notifications disabled!')),
-      );
+  Future<void> _toggleSchedule(Schedule schedule) async {
+    try {
+      final updatedSchedule = schedule.copyWith(isEnabled: !schedule.isEnabled);
+      await DatabaseService.updateSchedule(updatedSchedule);
+      await _loadSchedules();
+      await _updateNotifications();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error updating schedule: $e')),
+        );
+      }
+    }
+  }
+
+  Future<void> _deleteSchedule(Schedule schedule) async {
+    final bool? confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Schedule'),
+        content: Text('Are you sure you want to delete "${schedule.name}"?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true && schedule.id != null) {
+      try {
+        await DatabaseService.deleteSchedule(schedule.id!);
+        await _loadSchedules();
+        await _updateNotifications();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Schedule deleted!')),
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error deleting schedule: $e')),
+          );
+        }
+      }
+    }
+  }
+
+  Future<void> _updateNotifications() async {
+    if (kIsWeb) return;
+    
+    bool hasPermission = await NotificationService.requestPermissions();
+    if (hasPermission) {
+      await NotificationService.scheduleAllEnabledNotifications();
     }
   }
 }
