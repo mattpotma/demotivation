@@ -119,6 +119,4 @@ app.*.symbols
 !/dev/ci/**/Gemfile.lock
 
 # Project specific
-Makefile
-README.md
 *.iml
