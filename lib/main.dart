@@ -250,9 +250,28 @@ class _HomePageState extends State<HomePage> {
   Future<void> _updateNotifications() async {
     if (kIsWeb) return;
     
-    bool hasPermission = await NotificationService.requestPermissions();
-    if (hasPermission) {
-      await NotificationService.scheduleAllEnabledNotifications();
+    try {
+      bool hasPermission = await NotificationService.requestPermissions();
+      if (hasPermission) {
+        await NotificationService.scheduleAllEnabledNotifications();
+      }
+    } catch (e) {
+      print('Error updating notifications, trying reset: $e');
+      try {
+        // Try to reset notifications if there's a type parameter error
+        await NotificationService.resetNotifications();
+        bool hasPermission = await NotificationService.requestPermissions();
+        if (hasPermission) {
+          await NotificationService.scheduleAllEnabledNotifications();
+        }
+      } catch (resetError) {
+        print('Failed to reset notifications: $resetError');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Notification setup error. Try restarting the app.')),
+          );
+        }
+      }
     }
   }
 }

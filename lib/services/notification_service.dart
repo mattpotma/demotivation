@@ -49,13 +49,24 @@ class NotificationService {
   static Future<void> scheduleAllEnabledNotifications() async {
     if (kIsWeb) return;
     
-    await cancelAllNotifications();
-    
-    final enabledSchedules = await DatabaseService.getEnabledSchedules();
-    
-    for (int scheduleIndex = 0; scheduleIndex < enabledSchedules.length; scheduleIndex++) {
-      final schedule = enabledSchedules[scheduleIndex];
-      await _scheduleNotificationsForSchedule(schedule, scheduleIndex * 1000);
+    try {
+      // Clear all existing notifications to avoid type parameter conflicts
+      await cancelAllNotifications();
+      
+      final enabledSchedules = await DatabaseService.getEnabledSchedules();
+      
+      for (int scheduleIndex = 0; scheduleIndex < enabledSchedules.length; scheduleIndex++) {
+        final schedule = enabledSchedules[scheduleIndex];
+        await _scheduleNotificationsForSchedule(schedule, scheduleIndex * 1000);
+      }
+    } catch (e) {
+      print('Error scheduling enabled notifications: $e');
+      // If there's an error, try to clear all notifications again
+      try {
+        await cancelAllNotifications();
+      } catch (clearError) {
+        print('Error clearing notifications: $clearError');
+      }
     }
   }
 
@@ -136,7 +147,7 @@ class NotificationService {
         macOS: iOSPlatformChannelSpecifics,
       );
 
-      final tz.TZDateTime scheduledDate = tz.TZDateTime.from(scheduledTime, tz.local);
+      final tz.TZDateTime scheduledDate = tz.TZDateTime.from(scheduledTime, tz.getLocation(tz.local.name));
 
       await _flutterLocalNotificationsPlugin.zonedSchedule(
         id,
@@ -155,6 +166,24 @@ class NotificationService {
 
   static Future<void> cancelAllNotifications() async {
     if (kIsWeb) return;
-    await _flutterLocalNotificationsPlugin.cancelAll();
+    try {
+      await _flutterLocalNotificationsPlugin.cancelAll();
+    } catch (e) {
+      print('Error cancelling notifications: $e');
+      // Even if cancellation fails, we should continue
+      rethrow;
+    }
+  }
+
+  static Future<void> resetNotifications() async {
+    if (kIsWeb) return;
+    try {
+      // Force cancel all notifications
+      await _flutterLocalNotificationsPlugin.cancelAll();
+      // Re-initialize to clear any cached state
+      await initialize();
+    } catch (e) {
+      print('Error resetting notifications: $e');
+    }
   }
 }
