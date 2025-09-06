@@ -22,21 +22,41 @@ export const ScheduleCard: React.FC<ScheduleCardProps> = ({
     return `${displayHour}:${displayMinute} ${period}`;
   };
 
+  const formatDays = (schedule: any) => {
+    // Handle backward compatibility with old frequency format
+    if (schedule.frequency) {
+      return schedule.frequency;
+    }
+    
+    // Handle new daysOfWeek format
+    if (!schedule.daysOfWeek || !Array.isArray(schedule.daysOfWeek)) {
+      return 'Never';
+    }
+    
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const selectedDays = dayNames.filter((_, index) => schedule.daysOfWeek[index]);
+
+    if (selectedDays.length === 7) return 'Daily';
+    if (selectedDays.length === 0) return 'Never';
+    return selectedDays.join(', ');
+  };
+
   return (
     <View style={styles.card}>
       <View style={styles.header}>
         <Text style={styles.title}>{schedule.name}</Text>
         <Switch value={schedule.isEnabled} onValueChange={onToggle} />
       </View>
-      
+
       <Text style={styles.frequency}>
-        {schedule.frequency} at {formatTime(schedule.hour, schedule.minute)}
+        {formatDays(schedule)} at{' '}
+        {formatTime(schedule.hour, schedule.minute)}
       </Text>
-      
+
       <Text style={styles.motivation}>
         Motivational: {schedule.motivationPercentage}%
       </Text>
-      
+
       <View style={styles.actions}>
         <TouchableOpacity style={styles.editButton} onPress={onEdit}>
           <Text style={styles.editButtonText}>Edit</Text>

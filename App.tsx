@@ -21,8 +21,12 @@ const SCHEDULES_STORAGE_KEY = 'demotivation_schedules';
 function App(): React.JSX.Element {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [editingSchedule, setEditingSchedule] = useState<Schedule | undefined>();
-  const [permissionsGranted, setPermissionsGranted] = useState<boolean | null>(null);
+  const [editingSchedule, setEditingSchedule] = useState<
+    Schedule | undefined
+  >();
+  const [permissionsGranted, setPermissionsGranted] = useState<boolean | null>(
+    null,
+  );
 
   useEffect(() => {
     initializeApp();
@@ -52,7 +56,10 @@ function App(): React.JSX.Element {
 
   const saveSchedules = async (newSchedules: Schedule[]) => {
     try {
-      await AsyncStorage.setItem(SCHEDULES_STORAGE_KEY, JSON.stringify(newSchedules));
+      await AsyncStorage.setItem(
+        SCHEDULES_STORAGE_KEY,
+        JSON.stringify(newSchedules),
+      );
       setSchedules(newSchedules);
     } catch (error) {
       console.error('Error saving schedules:', error);
@@ -68,11 +75,15 @@ function App(): React.JSX.Element {
         'This app needs notification permission to send you scheduled messages. Please grant permission in the next dialog.',
         [
           {text: 'Cancel', style: 'cancel'},
-          {text: 'OK', onPress: async () => {
-            const retryGranted = await NotificationService.requestPermissions();
-            setPermissionsGranted(retryGranted);
-          }}
-        ]
+          {
+            text: 'OK',
+            onPress: async () => {
+              const retryGranted =
+                await NotificationService.requestPermissions();
+              setPermissionsGranted(retryGranted);
+            },
+          },
+        ],
       );
     }
     return granted;
@@ -95,12 +106,12 @@ function App(): React.JSX.Element {
     }
 
     let newSchedules: Schedule[];
-    
+
     if (editingSchedule) {
       newSchedules = schedules.map(s =>
         s.id === editingSchedule.id
           ? {...scheduleData, id: editingSchedule.id}
-          : s
+          : s,
       );
     } else {
       const newId = Math.max(0, ...schedules.map(s => s.id || 0)) + 1;
@@ -117,7 +128,7 @@ function App(): React.JSX.Element {
     const newSchedules = schedules.map(schedule =>
       schedule.id === id
         ? {...schedule, isEnabled: !schedule.isEnabled}
-        : schedule
+        : schedule,
     );
     await saveSchedules(newSchedules);
   };
@@ -136,7 +147,7 @@ function App(): React.JSX.Element {
             await saveSchedules(newSchedules);
           },
         },
-      ]
+      ],
     );
   };
 
@@ -161,7 +172,7 @@ function App(): React.JSX.Element {
           <Text style={styles.addButtonText}>Add Schedule</Text>
         </TouchableOpacity>
       </View>
-      
+
       <ScrollView style={styles.scrollView}>
         {schedules.map(schedule => (
           <ScheduleCard
@@ -179,7 +190,7 @@ function App(): React.JSX.Element {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#f5f5f5" />
-      
+
       {schedules.length === 0 ? renderEmptyState() : renderSchedulesList()}
 
       <Modal

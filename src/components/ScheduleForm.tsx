@@ -21,10 +21,32 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
   onSave,
   onCancel,
 }) => {
-  const [name, setName] = useState(initialData?.name || 'Daily Messages');
-  const [frequency, setFrequency] = useState<Schedule['frequency']>(
-    initialData?.frequency || 'Daily'
-  );
+  const [name, setName] = useState(initialData?.name || 'Weekly Messages');
+  const [daysOfWeek, setDaysOfWeek] = useState<boolean[]>(() => {
+    // Handle backward compatibility with old frequency format
+    if (initialData?.frequency) {
+      switch (initialData.frequency) {
+        case 'Daily':
+          return [true, true, true, true, true, true, true];
+        case 'Weekly':
+          return [false, false, false, false, false, false, false];
+        case 'Hourly':
+          return [true, true, true, true, true, true, true];
+        default:
+          return [false, false, false, false, false, false, false];
+      }
+    }
+    
+    return initialData?.daysOfWeek || [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ];
+  });
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [selectedTime, setSelectedTime] = useState(() => {
     const now = new Date();
@@ -34,18 +56,15 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
     return now;
   });
   const [motivationPercentage, setMotivationPercentage] = useState(
-    initialData?.motivationPercentage?.toString() || '50'
+    initialData?.motivationPercentage || 50,
   );
 
-  const frequencies: Schedule['frequency'][] = ['Hourly', 'Daily', 'Weekly'];
+  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  const handleFrequencyChange = (newFrequency: Schedule['frequency']) => {
-    setFrequency(newFrequency);
-    // Update default name if user hasn't customized it
-    const currentDefaultName = `${frequency} Messages`;
-    if (name === currentDefaultName || name === '') {
-      setName(`${newFrequency} Messages`);
-    }
+  const toggleDay = (dayIndex: number) => {
+    const newDaysOfWeek = [...daysOfWeek];
+    newDaysOfWeek[dayIndex] = !newDaysOfWeek[dayIndex];
+    setDaysOfWeek(newDaysOfWeek);
   };
 
   const handleTimeChange = (event: any, selectedDate?: Date) => {
@@ -60,11 +79,14 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
       return;
     }
 
-    const motivation = Math.max(0, Math.min(100, parseInt(motivationPercentage) || 0));
+    const motivation = Math.max(
+      0,
+      Math.min(100, Math.round(motivationPercentage)),
+    );
 
     const schedule: Omit<Schedule, 'id'> = {
       name: name.trim(),
-      frequency,
+      daysOfWeek,
       hour: selectedTime.getHours(),
       minute: selectedTime.getMinutes(),
       motivationPercentage: motivation,
@@ -101,22 +123,22 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
       </View>
 
       <View style={styles.inputGroup}>
-        <Text style={styles.label}>Frequency</Text>
-        <View style={styles.frequencyContainer}>
-          {frequencies.map((freq) => (
+        <Text style={styles.label}>Days of Week</Text>
+        <View style={styles.daysContainer}>
+          {dayNames.map((dayName, index) => (
             <TouchableOpacity
-              key={freq}
+              key={dayName}
               style={[
-                styles.frequencyButton,
-                frequency === freq && styles.frequencyButtonActive,
+                styles.dayButton,
+                daysOfWeek[index] && styles.dayButtonActive,
               ]}
-              onPress={() => handleFrequencyChange(freq)}>
+              onPress={() => toggleDay(index)}>
               <Text
                 style={[
-                  styles.frequencyButtonText,
-                  frequency === freq && styles.frequencyButtonTextActive,
+                  styles.dayButtonText,
+                  daysOfWeek[index] && styles.dayButtonTextActive,
                 ]}>
-                {freq}
+                {dayName}
               </Text>
             </TouchableOpacity>
           ))}
@@ -143,18 +165,33 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
 
       <View style={styles.inputGroup}>
         <Text style={styles.label}>
-          Motivational Percentage (0-100%)
+          Motivational Percentage: {Math.round(motivationPercentage)}%
         </Text>
-        <TextInput
-          style={styles.textInput}
-          value={motivationPercentage}
-          onChangeText={setMotivationPercentage}
-          placeholder="50"
-          keyboardType="numeric"
-          maxLength={3}
-        />
+        <View style={styles.percentageSelector}>
+          <Text style={styles.testLabel}>Tap to set percentage:</Text>
+          <View style={styles.percentageButtons}>
+            {[0, 25, 50, 75, 100].map((percent) => (
+              <TouchableOpacity
+                key={percent}
+                style={[
+                  styles.percentButton,
+                  motivationPercentage === percent && styles.percentButtonActive
+                ]}
+                onPress={() => setMotivationPercentage(percent)}>
+                <Text style={[
+                  styles.percentButtonText,
+                  motivationPercentage === percent && styles.percentButtonTextActive
+                ]}>
+                  {percent}%
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <Text style={styles.testLabel}>Current: {Math.round(motivationPercentage)}%</Text>
+        </View>
         <Text style={styles.helperText}>
-          {motivationPercentage}% motivational, {100 - parseInt(motivationPercentage || '0')}% demotivational
+          {Math.round(motivationPercentage)}% motivational,{' '}
+          {100 - Math.round(motivationPercentage)}% demotivational
         </Text>
       </View>
 
@@ -203,31 +240,32 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     color: '#333',
   },
-  frequencyContainer: {
+  daysContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  frequencyButton: {
-    flex: 1,
+  dayButton: {
+    width: 44,
+    height: 44,
     backgroundColor: 'white',
-    padding: 12,
-    marginHorizontal: 4,
-    borderRadius: 8,
-    borderWidth: 1,
+    borderRadius: 22,
+    borderWidth: 2,
     borderColor: '#ddd',
     alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 2,
   },
-  frequencyButtonActive: {
+  dayButtonActive: {
     backgroundColor: '#007AFF',
     borderColor: '#007AFF',
   },
-  frequencyButtonText: {
-    fontSize: 14,
+  dayButtonText: {
+    fontSize: 12,
     color: '#333',
-  },
-  frequencyButtonTextActive: {
-    color: 'white',
     fontWeight: '500',
+  },
+  dayButtonTextActive: {
+    color: 'white',
   },
   timeButton: {
     backgroundColor: 'white',
@@ -241,10 +279,59 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
   },
+  sliderTestContainer: {
+    backgroundColor: '#f0f0f0',
+    padding: 15,
+    borderRadius: 8,
+    marginVertical: 10,
+  },
+  testLabel: {
+    fontSize: 14,
+    color: '#333',
+    marginBottom: 5,
+    textAlign: 'center',
+  },
+  slider: {
+    width: '100%',
+    height: 40,
+    marginVertical: 10,
+  },
   helperText: {
     fontSize: 12,
     color: '#666',
     marginTop: 4,
+  },
+  percentageSelector: {
+    backgroundColor: '#f0f0f0',
+    padding: 15,
+    borderRadius: 8,
+    marginVertical: 10,
+  },
+  percentageButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 10,
+  },
+  percentButton: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 12,
+    minWidth: 50,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  percentButtonActive: {
+    backgroundColor: '#007AFF',
+    borderColor: '#007AFF',
+  },
+  percentButtonText: {
+    fontSize: 14,
+    color: '#333',
+    fontWeight: '500',
+  },
+  percentButtonTextActive: {
+    color: 'white',
   },
   buttonContainer: {
     flexDirection: 'row',
