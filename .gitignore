@@ -72,3 +72,21 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# APK build outputs
+android/app/build/
+android/build/
+android/app/release/
+*.apk
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.development
+
+# Flipper
+ios/Pods/
+
+# Logs
+*.log
