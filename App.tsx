@@ -27,15 +27,21 @@ function App(): React.JSX.Element {
   const [permissionsGranted, setPermissionsGranted] = useState<boolean | null>(
     null,
   );
+  const [debugNotifications, setDebugNotifications] = useState<any[]>([]);
+  const [debugLogs, setDebugLogs] = useState<string[]>([]);
+  const [showDebug, setShowDebug] = useState(false);
 
   useEffect(() => {
     initializeApp();
   }, []);
 
   useEffect(() => {
-    if (permissionsGranted && schedules.length > 0) {
-      NotificationService.scheduleAllEnabledNotifications(schedules);
-    }
+    const scheduleNotifications = async () => {
+      if (permissionsGranted && schedules.length > 0) {
+        await NotificationService.scheduleAllEnabledNotifications(schedules);
+      }
+    };
+    scheduleNotifications();
   }, [schedules, permissionsGranted]);
 
   const initializeApp = async () => {
@@ -151,6 +157,14 @@ function App(): React.JSX.Element {
     );
   };
 
+  const handleShowDebug = async () => {
+    const notificationData = await NotificationService.getScheduledNotifications();
+    const logs = NotificationService.getLogs();
+    setDebugNotifications(notificationData.trigger);
+    setDebugLogs(logs);
+    setShowDebug(true);
+  };
+
   const renderEmptyState = () => (
     <View style={styles.emptyState}>
       <Text style={styles.emptyTitle}>No Schedules Yet</Text>
@@ -168,9 +182,14 @@ function App(): React.JSX.Element {
     <>
       <View style={styles.header}>
         <Text style={styles.title}>Demotivation</Text>
-        <TouchableOpacity style={styles.addButton} onPress={handleAddSchedule}>
-          <Text style={styles.addButtonText}>Add Schedule</Text>
-        </TouchableOpacity>
+        <View style={styles.headerButtons}>
+          <TouchableOpacity style={styles.debugButton} onPress={handleShowDebug}>
+            <Text style={styles.debugButtonText}>Debug</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.addButton} onPress={handleAddSchedule}>
+            <Text style={styles.addButtonText}>Add Schedule</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView style={styles.scrollView}>
@@ -206,6 +225,60 @@ function App(): React.JSX.Element {
               setEditingSchedule(undefined);
             }}
           />
+        </SafeAreaView>
+      </Modal>
+
+      <Modal
+        visible={showDebug}
+        animationType="slide"
+        presentationStyle="pageSheet">
+        <SafeAreaView style={styles.modal}>
+          <View style={styles.debugContainer}>
+            <View style={styles.debugHeader}>
+              <Text style={styles.debugTitle}>Debug Info</Text>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setShowDebug(false)}>
+                <Text style={styles.closeButtonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView style={styles.debugScroll}>
+              <Text style={styles.debugSectionTitle}>Scheduled Notifications ({debugNotifications.length})</Text>
+              {debugNotifications.length === 0 ? (
+                <Text style={styles.noNotificationsText}>No notifications scheduled</Text>
+              ) : (
+                debugNotifications.map((notification, index) => {
+                  const trigger = notification.trigger as any;
+                  const timestamp = trigger?.timestamp;
+                  const date = timestamp ? new Date(timestamp) : null;
+                  return (
+                    <View key={index} style={styles.debugNotification}>
+                      <Text style={styles.debugNotificationId}>ID: {notification.notification.id}</Text>
+                      <Text style={styles.debugNotificationTitle}>{notification.notification.title}</Text>
+                      <Text style={styles.debugNotificationBody}>{notification.notification.body}</Text>
+                      <Text style={styles.debugNotificationTime}>
+                        {date ? date.toLocaleString() : 'Unknown time'}
+                      </Text>
+                      <Text style={styles.debugNotificationDelay}>
+                        {date ? `In ${Math.round((date.getTime() - Date.now()) / 1000)}s` : ''}
+                      </Text>
+                    </View>
+                  );
+                })
+              )}
+
+              <Text style={styles.debugSectionTitle}>Recent Logs ({debugLogs.length})</Text>
+              {debugLogs.length === 0 ? (
+                <Text style={styles.noLogsText}>No logs available</Text>
+              ) : (
+                debugLogs.slice(-20).reverse().map((log, index) => (
+                  <View key={index} style={styles.debugLogEntry}>
+                    <Text style={styles.debugLogText}>{log}</Text>
+                  </View>
+                ))
+              )}
+            </ScrollView>
+          </View>
         </SafeAreaView>
       </Modal>
     </SafeAreaView>
@@ -272,6 +345,119 @@ const styles = StyleSheet.create({
   modal: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+  },
+  headerButtons: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  debugButton: {
+    backgroundColor: '#666',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  debugButtonText: {
+    color: 'white',
+    fontWeight: '500',
+    fontSize: 14,
+  },
+  debugContainer: {
+    flex: 1,
+    padding: 20,
+  },
+  debugHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  debugTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  closeButton: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontWeight: '500',
+  },
+  debugScroll: {
+    flex: 1,
+  },
+  noNotificationsText: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#666',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  debugSectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginTop: 20,
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    paddingBottom: 5,
+  },
+  noLogsText: {
+    textAlign: 'center',
+    fontSize: 14,
+    color: '#666',
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  debugLogEntry: {
+    backgroundColor: '#f8f8f8',
+    padding: 8,
+    borderRadius: 4,
+    marginBottom: 4,
+    borderLeftWidth: 2,
+    borderLeftColor: '#999',
+  },
+  debugLogText: {
+    fontSize: 12,
+    color: '#333',
+    fontFamily: 'monospace',
+  },
+  debugNotification: {
+    backgroundColor: 'white',
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 10,
+    borderLeftWidth: 4,
+    borderLeftColor: '#007AFF',
+  },
+  debugNotificationId: {
+    fontSize: 12,
+    color: '#666',
+    marginBottom: 4,
+  },
+  debugNotificationTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 4,
+  },
+  debugNotificationBody: {
+    fontSize: 14,
+    color: '#555',
+    marginBottom: 8,
+  },
+  debugNotificationTime: {
+    fontSize: 12,
+    color: '#007AFF',
+    marginBottom: 2,
+  },
+  debugNotificationDelay: {
+    fontSize: 12,
+    color: '#999',
   },
 });
 

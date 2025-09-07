@@ -38,13 +38,13 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
     }
     
     return initialData?.daysOfWeek || [
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
     ];
   });
   const [showTimePicker, setShowTimePicker] = useState(false);
