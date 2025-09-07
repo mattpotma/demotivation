@@ -1,0 +1,92 @@
+messages:
+  - message: 'You are capable of amazing things!'
+    tags:
+      [
+        'motivational',
+        'inspirational',
+        'daily_affirmation',
+        'personal_growth',
+        'complimentary',
+      ]
+
+  - message: 'Every day is a new opportunity to grow.'
+    tags:
+      [
+        'motivational',
+        'inspirational',
+        'philosophical',
+        'daily_affirmation',
+        'personal_growth',
+      ]
+
+  - message: 'Believe in yourself and your abilities.'
+    tags:
+      [
+        'motivational',
+        'inspirational',
+        'daily_affirmation',
+        'personal_growth',
+        'complimentary',
+      ]
+
+  - message: 'You have the strength to overcome any challenge.'
+    tags:
+      [
+        'motivational',
+        'inspirational',
+        'daily_affirmation',
+        'personal_growth',
+        'complimentary',
+      ]
+
+  - message: 'Your potential is limitless.'
+    tags:
+      [
+        'motivational',
+        'inspirational',
+        'philosophical',
+        'daily_affirmation',
+        'personal_growth',
+        'complimentary',
+      ]
+
+  - message: 'Today is your day to shine!'
+    tags:
+      ['motivational', 'inspirational', 'daily_affirmation', 'complimentary']
+
+  - message: "You are making progress, even if you can't see it."
+    tags:
+      [
+        'motivational',
+        'inspirational',
+        'philosophical',
+        'personal_growth',
+        'complimentary',
+      ]
+
+  - message: 'Your hard work will pay off.'
+    tags: ['motivational', 'inspirational', 'workplace', 'personal_growth']
+
+  - message: "You're probably not as special as you think you are."
+    tags: ['funny', 'harsh_truth']
+
+  - message: "Most people won't remember what you did today."
+    tags: ['philosophical', 'harsh_truth', 'existential']
+
+  - message: "Your problems aren't that unique."
+    tags: ['funny', 'harsh_truth']
+
+  - message: "You'll probably give up on this goal like the others."
+    tags: ['funny', 'harsh_truth']
+
+  - message: 'Nobody cares as much as you think they do.'
+    tags: ['philosophical', 'harsh_truth', 'existential']
+
+  - message: "You're overthinking this."
+    tags: ['funny', 'harsh_truth']
+
+  - message: 'This too shall pass... into obscurity.'
+    tags: ['funny', 'philosophical', 'existential']
+
+  - message: "You're just average, and that's okay."
+    tags: ['philosophical', 'harsh_truth']

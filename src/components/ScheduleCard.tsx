@@ -27,14 +27,16 @@ export const ScheduleCard: React.FC<ScheduleCardProps> = ({
     if (schedule.frequency) {
       return schedule.frequency;
     }
-    
+
     // Handle new daysOfWeek format
     if (!schedule.daysOfWeek || !Array.isArray(schedule.daysOfWeek)) {
       return 'Never';
     }
-    
+
     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const selectedDays = dayNames.filter((_, index) => schedule.daysOfWeek[index]);
+    const selectedDays = dayNames.filter(
+      (_, index) => schedule.daysOfWeek[index],
+    );
 
     if (selectedDays.length === 7) return 'Daily';
     if (selectedDays.length === 0) return 'Never';
@@ -49,8 +51,7 @@ export const ScheduleCard: React.FC<ScheduleCardProps> = ({
       </View>
 
       <Text style={styles.frequency}>
-        {formatDays(schedule)} at{' '}
-        {formatTime(schedule.hour, schedule.minute)}
+        {formatDays(schedule)} at {formatTime(schedule.hour, schedule.minute)}
       </Text>
 
       <Text style={styles.motivation}>

@@ -36,16 +36,10 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
           return [false, false, false, false, false, false, false];
       }
     }
-    
-    return initialData?.daysOfWeek || [
-      true,
-      true,
-      true,
-      true,
-      true,
-      true,
-      true,
-    ];
+
+    return (
+      initialData?.daysOfWeek || [true, true, true, true, true, true, true]
+    );
   });
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [selectedTime, setSelectedTime] = useState(() => {
@@ -170,24 +164,29 @@ export const ScheduleForm: React.FC<ScheduleFormProps> = ({
         <View style={styles.percentageSelector}>
           <Text style={styles.testLabel}>Tap to set percentage:</Text>
           <View style={styles.percentageButtons}>
-            {[0, 25, 50, 75, 100].map((percent) => (
+            {[0, 25, 50, 75, 100].map(percent => (
               <TouchableOpacity
                 key={percent}
                 style={[
                   styles.percentButton,
-                  motivationPercentage === percent && styles.percentButtonActive
+                  motivationPercentage === percent &&
+                    styles.percentButtonActive,
                 ]}
                 onPress={() => setMotivationPercentage(percent)}>
-                <Text style={[
-                  styles.percentButtonText,
-                  motivationPercentage === percent && styles.percentButtonTextActive
-                ]}>
+                <Text
+                  style={[
+                    styles.percentButtonText,
+                    motivationPercentage === percent &&
+                      styles.percentButtonTextActive,
+                  ]}>
                   {percent}%
                 </Text>
               </TouchableOpacity>
             ))}
           </View>
-          <Text style={styles.testLabel}>Current: {Math.round(motivationPercentage)}%</Text>
+          <Text style={styles.testLabel}>
+            Current: {Math.round(motivationPercentage)}%
+          </Text>
         </View>
         <Text style={styles.helperText}>
           {Math.round(motivationPercentage)}% motivational,{' '}

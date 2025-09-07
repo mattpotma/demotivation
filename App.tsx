@@ -158,7 +158,8 @@ function App(): React.JSX.Element {
   };
 
   const handleShowDebug = async () => {
-    const notificationData = await NotificationService.getScheduledNotifications();
+    const notificationData =
+      await NotificationService.getScheduledNotifications();
     const logs = NotificationService.getLogs();
     setDebugNotifications(notificationData.trigger);
     setDebugLogs(logs);
@@ -183,10 +184,14 @@ function App(): React.JSX.Element {
       <View style={styles.header}>
         <Text style={styles.title}>Demotivation</Text>
         <View style={styles.headerButtons}>
-          <TouchableOpacity style={styles.debugButton} onPress={handleShowDebug}>
+          <TouchableOpacity
+            style={styles.debugButton}
+            onPress={handleShowDebug}>
             <Text style={styles.debugButtonText}>Debug</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.addButton} onPress={handleAddSchedule}>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={handleAddSchedule}>
             <Text style={styles.addButtonText}>Add Schedule</Text>
           </TouchableOpacity>
         </View>
@@ -243,9 +248,13 @@ function App(): React.JSX.Element {
               </TouchableOpacity>
             </View>
             <ScrollView style={styles.debugScroll}>
-              <Text style={styles.debugSectionTitle}>Scheduled Notifications ({debugNotifications.length})</Text>
+              <Text style={styles.debugSectionTitle}>
+                Scheduled Notifications ({debugNotifications.length})
+              </Text>
               {debugNotifications.length === 0 ? (
-                <Text style={styles.noNotificationsText}>No notifications scheduled</Text>
+                <Text style={styles.noNotificationsText}>
+                  No notifications scheduled
+                </Text>
               ) : (
                 debugNotifications.map((notification, index) => {
                   const trigger = notification.trigger as any;
@@ -253,29 +262,44 @@ function App(): React.JSX.Element {
                   const date = timestamp ? new Date(timestamp) : null;
                   return (
                     <View key={index} style={styles.debugNotification}>
-                      <Text style={styles.debugNotificationId}>ID: {notification.notification.id}</Text>
-                      <Text style={styles.debugNotificationTitle}>{notification.notification.title}</Text>
-                      <Text style={styles.debugNotificationBody}>{notification.notification.body}</Text>
+                      <Text style={styles.debugNotificationId}>
+                        ID: {notification.notification.id}
+                      </Text>
+                      <Text style={styles.debugNotificationTitle}>
+                        {notification.notification.title}
+                      </Text>
+                      <Text style={styles.debugNotificationBody}>
+                        {notification.notification.body}
+                      </Text>
                       <Text style={styles.debugNotificationTime}>
                         {date ? date.toLocaleString() : 'Unknown time'}
                       </Text>
                       <Text style={styles.debugNotificationDelay}>
-                        {date ? `In ${Math.round((date.getTime() - Date.now()) / 1000)}s` : ''}
+                        {date
+                          ? `In ${Math.round(
+                              (date.getTime() - Date.now()) / 1000,
+                            )}s`
+                          : ''}
                       </Text>
                     </View>
                   );
                 })
               )}
 
-              <Text style={styles.debugSectionTitle}>Recent Logs ({debugLogs.length})</Text>
+              <Text style={styles.debugSectionTitle}>
+                Recent Logs ({debugLogs.length})
+              </Text>
               {debugLogs.length === 0 ? (
                 <Text style={styles.noLogsText}>No logs available</Text>
               ) : (
-                debugLogs.slice(-20).reverse().map((log, index) => (
-                  <View key={index} style={styles.debugLogEntry}>
-                    <Text style={styles.debugLogText}>{log}</Text>
-                  </View>
-                ))
+                debugLogs
+                  .slice(-20)
+                  .reverse()
+                  .map((log, index) => (
+                    <View key={index} style={styles.debugLogEntry}>
+                      <Text style={styles.debugLogText}>{log}</Text>
+                    </View>
+                  ))
               )}
             </ScrollView>
           </View>
