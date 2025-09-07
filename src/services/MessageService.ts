@@ -26,7 +26,17 @@ export class MessageService {
       this.db = await SQLite.openDatabase({
         name: 'demotivation.db',
         location: 'default',
+        createFromLocation: 1, // This tells SQLite to copy from assets
       });
+
+      // Verify the database has content
+      const result = await this.db.executeSql('SELECT COUNT(*) as count FROM messages');
+      const messageCount = result[0].rows.item(0).count;
+      console.log(`Database initialized with ${messageCount} messages`);
+
+      if (messageCount === 0) {
+        console.warn('Database is empty - this suggests the asset copy failed');
+      }
     } catch (error) {
       console.error('Failed to open database:', error);
       throw error;
@@ -41,32 +51,42 @@ export class MessageService {
     }
 
     try {
-      // First, get all IDs that match the criteria
-      const countQuery =
-        'SELECT COUNT(*) as count FROM messages WHERE motivational = ?';
-      const countResult = await this.db.executeSql(countQuery, [
+      // First, get all primary keys that match the criteria
+      const idsQuery = 'SELECT id FROM messages WHERE motivational = ?';
+      const idsResult = await this.db.executeSql(idsQuery, [
         isMotivational ? 1 : 0,
       ]);
-      const messageCount = countResult[0].rows.item(0).count;
 
-      if (messageCount === 0) {
+      console.log(`Found ${idsResult[0].rows.length} ${isMotivational ? 'motivational' : 'demotivational'} messages`);
+
+      if (idsResult[0].rows.length === 0) {
+        console.warn(`No ${isMotivational ? 'motivational' : 'demotivational'} messages found`);
         return isMotivational ? 'Stay positive!' : "Life's meaningless anyway.";
       }
 
-      // Generate a random offset
-      const randomOffset = Math.floor(Math.random() * messageCount);
+      // Collect all IDs
+      const messageIds: number[] = [];
+      for (let i = 0; i < idsResult[0].rows.length; i++) {
+        messageIds.push(idsResult[0].rows.item(i).id);
+      }
 
-      // Get the message at that offset
-      const messageQuery =
-        'SELECT message FROM messages WHERE motivational = ? LIMIT 1 OFFSET ?';
-      const messageResult = await this.db.executeSql(messageQuery, [
-        isMotivational ? 1 : 0,
-        randomOffset,
-      ]);
+      // Randomly select one ID
+      const randomIndex = Math.floor(Math.random() * messageIds.length);
+      const selectedId = messageIds[randomIndex];
+      
+      console.log(`Available IDs: [${messageIds.join(', ')}]`);
+      console.log(`Randomly selected ID: ${selectedId} (index ${randomIndex} of ${messageIds.length})`);
+
+      // Get the message for that ID
+      const messageQuery = 'SELECT message FROM messages WHERE id = ?';
+      const messageResult = await this.db.executeSql(messageQuery, [selectedId]);
 
       if (messageResult[0].rows.length > 0) {
-        return messageResult[0].rows.item(0).message;
+        const selectedMessage = messageResult[0].rows.item(0).message;
+        console.log(`Selected message: "${selectedMessage}"`);
+        return selectedMessage;
       } else {
+        console.warn(`No message found for ID ${selectedId}`);
         return isMotivational ? 'Stay positive!' : "Life's meaningless anyway.";
       }
     } catch (error) {
@@ -124,8 +144,8 @@ export class MessageService {
     }
 
     try {
-      // Build count query
-      let countQuery = 'SELECT COUNT(*) as count FROM messages';
+      // Build ID query
+      let idsQuery = 'SELECT id FROM messages';
       const params: any[] = [];
       const conditions: string[] = [];
 
@@ -137,30 +157,28 @@ export class MessageService {
       }
 
       if (conditions.length > 0) {
-        countQuery += ` WHERE ${conditions.join(' AND ')}`;
+        idsQuery += ` WHERE ${conditions.join(' AND ')}`;
       }
 
-      const countResult = await this.db.executeSql(countQuery, params);
-      const messageCount = countResult[0].rows.item(0).count;
+      const idsResult = await this.db.executeSql(idsQuery, params);
 
-      if (messageCount === 0) {
+      if (idsResult[0].rows.length === 0) {
         return 'No messages match your criteria.';
       }
 
-      // Generate random offset
-      const randomOffset = Math.floor(Math.random() * messageCount);
-
-      // Get the message at that offset
-      let messageQuery = 'SELECT message FROM messages';
-      if (conditions.length > 0) {
-        messageQuery += ` WHERE ${conditions.join(' AND ')}`;
+      // Collect all IDs
+      const messageIds: number[] = [];
+      for (let i = 0; i < idsResult[0].rows.length; i++) {
+        messageIds.push(idsResult[0].rows.item(i).id);
       }
-      messageQuery += ' LIMIT 1 OFFSET ?';
 
-      const messageResult = await this.db.executeSql(messageQuery, [
-        ...params,
-        randomOffset,
-      ]);
+      // Randomly select one ID
+      const randomIndex = Math.floor(Math.random() * messageIds.length);
+      const selectedId = messageIds[randomIndex];
+
+      // Get the message for that ID
+      const messageQuery = 'SELECT message FROM messages WHERE id = ?';
+      const messageResult = await this.db.executeSql(messageQuery, [selectedId]);
 
       if (messageResult[0].rows.length > 0) {
         return messageResult[0].rows.item(0).message;
