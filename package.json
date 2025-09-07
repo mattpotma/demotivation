@@ -17,7 +17,10 @@
     "react": "18.2.0",
     "react-native": "0.74.5",
     "react-native-simple-toast": "^3.3.2",
-    "react-native-sqlite-storage": "^6.0.1"
+    "react-native-sqlite-2": "^3.6.2",
+    "react-native-sqlite-storage": "^6.0.1",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.26"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

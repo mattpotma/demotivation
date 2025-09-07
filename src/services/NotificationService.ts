@@ -243,12 +243,9 @@ export class NotificationService {
     schedule: any,
   ) {
     try {
-      // Generate message content at scheduling time (not ideal but necessary for triggers)
-      const isMotivational =
-        Math.random() * 100 < schedule.motivationPercentage;
-      const messageContent = await MessageService.getRandomMessage(
-        isMotivational,
-      );
+      // Generate message content with fresh Math.random() call for each notification
+      const isMotivational = Math.random() * 100 < schedule.motivationPercentage;
+      const messageContent = await MessageService.getRandomMessage(isMotivational);
 
       // Create notification channel with silent settings
       const channelId = await notifee.createChannel({
@@ -286,4 +283,5 @@ export class NotificationService {
       this.log(`    Error scheduling background notification: ${error}`);
     }
   }
+
 }
