@@ -591,3 +591,9 @@ messages:
 
   - message: 'Your motivation comes and goes like a fair-weather friend with commitment issues.'
     tags: ['harsh_truth', 'funny', 'motivational']
+
+  - message: "Your potential is limited."
+    tags: ['harsh_truth', 'philosophical']
+
+  - message: "You miss 90% of the shots you take."
+    tags: ['harsh_truth']
