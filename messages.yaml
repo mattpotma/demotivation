@@ -90,3 +90,504 @@ messages:
 
   - message: "You're just average, and that's okay."
     tags: ['philosophical', 'harsh_truth']
+
+  - message: 'You’re doing better than the version of you that never even tried.'
+    tags: ['motivational', 'inspirational', 'personal_growth']
+
+  - message: 'Someone out there is jealous of how much free time you waste.'
+    tags: ['funny', 'harsh_truth']
+
+  - message: 'You survived all your worst days so far.'
+    tags: ['motivational', 'inspirational', 'existential']
+
+  - message: 'Statistically, someone dumber than you is living their dream.'
+    tags: ['funny', 'harsh_truth', 'existential']
+
+  - message: 'One day, nobody will remember you. So relax.'
+    tags: ['philosophical', 'existential', 'harsh_truth']
+
+  - message: 'You are not behind. You are just on your own weird schedule.'
+    tags: ['motivational', 'inspirational', 'personal_growth']
+
+  - message: 'You are the main character... of a very slow indie film.'
+    tags: ['funny', 'existential']
+
+  - message: 'Be proud—you almost quit, but then scrolled instead.'
+    tags: ['funny', 'harsh_truth']
+
+  - message: 'You don’t have to change the world. Just don’t make it worse.'
+    tags: ['philosophical', 'existential']
+
+  - message: 'Nobody else knows what they’re doing either.'
+    tags: ['motivational', 'philosophical', 'existential']
+
+  - message: 'Your future self is watching you right now... disappointed.'
+    tags: ['funny', 'harsh_truth']
+
+  - message: 'You’re basically a collection of habits pretending to be a person.'
+    tags: ['philosophical', 'existential']
+
+  - message: 'The universe doesn’t care. Use that freedom wisely.'
+    tags: ['philosophical', 'existential', 'motivational']
+
+  - message: 'Your best effort today might be “surviving,” and that’s okay.'
+    tags: ['motivational', 'personal_growth', 'existential']
+
+  - message: 'Don’t worry—everyone else is faking confidence too.'
+    tags: ['motivational', 'philosophical', 'personal_growth']
+
+  - message: 'You are one good nap away from believing in yourself again.'
+    tags: ['funny', 'motivational']
+
+  - message: 'Eventually, even your most embarrassing moment will be forgotten... by everyone except you.'
+    tags: ['funny', 'existential']
+
+  - message: 'You will disappoint someone today. Accept it and move on.'
+    tags: ['harsh_truth', 'existential', 'philosophical']
+
+  - message: 'Your brain is a soup of chemicals guessing its way through life.'
+    tags: ['funny', 'existential', 'philosophical']
+
+  - message: 'At least you’re not as unproductive as that plant you forgot to water.'
+    tags: ['funny', 'motivational']
+
+  - message: 'You are proof that chaos can take human form and still function.'
+    tags: ['funny', 'existential', 'complimentary']
+
+  - message: 'Your persistence is terrifying. In a good way.'
+    tags: ['motivational', 'inspirational', 'complimentary']
+
+  - message: 'The bar is on the floor. Step over it.'
+    tags: ['funny', 'harsh_truth']
+
+  - message: 'You’ve made it this far without knowing what you’re doing. Impressive.'
+    tags: ['funny', 'motivational', 'existential']
+
+  - message: 'Every mistake you’ve ever made will be recycled as wisdom.'
+    tags: ['philosophical', 'motivational', 'personal_growth']
+
+  - message: 'Your phone probably knows you better than you know yourself.'
+    tags: ['funny', 'harsh_truth', 'existential']
+
+  - message: 'Greatness is just stubbornness with better PR.'
+    tags: ['funny', 'motivational', 'philosophical']
+
+  - message: 'Don’t worry—you’ll never be as bad as the person you were five years ago.'
+    tags: ['motivational', 'personal_growth', 'philosophical']
+
+  - message: 'The universe is expanding, and so are you.'
+    tags: ['funny', 'existential']
+
+  - message: 'Half of success is just not quitting, the other half is pretending you know why you didn’t.'
+    tags: ['funny', 'motivational']
+
+  - message: 'One day you’ll look back and realize today was actually fine.'
+    tags: ['motivational', 'philosophical', 'existential']
+
+  - message: 'Your brain is a squishy prediction machine that somehow files taxes.'
+    tags: ['funny', 'existential']
+
+  - message: 'Failure builds character. Unfortunately, so does success. You can’t win.'
+    tags: ['funny', 'harsh_truth', 'existential']
+
+  - message: 'Celebrate small wins. Nobody else will.'
+    tags: ['funny', 'harsh_truth', 'motivational']
+
+  - message: 'Don’t aim for perfection—aim for slightly better than yesterday’s disaster.'
+    tags: ['motivational', 'funny', 'personal_growth']
+
+  - message: 'Someday you’ll die, and honestly, that takes a lot of pressure off.'
+    tags: ['existential', 'funny', 'harsh_truth']
+
+  - message: 'Caffeine can’t fix everything, but it’s tried its best for you.'
+    tags: ['funny', 'motivational']
+
+  - message: 'Your weirdness is your advantage—unless you’re at a job interview.'
+    tags: ['funny', 'motivational']
+
+  - message: 'You’re the glitch in the simulation that nobody patched out.'
+    tags: ['funny', 'existential', 'complimentary']
+
+  - message: 'Hard work pays off eventually. Or it doesn’t. But hey, it killed some time.'
+    tags: ['funny', 'harsh_truth', 'motivational']
+
+  - message: 'Your to-do list is just a wishlist for a more disciplined version of you.'
+    tags: ['funny', 'harsh_truth']
+
+  - message: 'You’re allowed to rest. Even phones need to recharge, and you’re slightly more complicated.'
+    tags: ['motivational', 'philosophical', 'personal_growth']
+
+  - message: 'Most of your best memories are just brain glitches that stuck.'
+    tags: ['existential', 'philosophical', 'funny']
+
+  - message: 'Your legacy might just be a decent meme. And that’s okay.'
+    tags: ['funny', 'existential']
+
+  - message: 'Confidence is just faking it louder than your self-doubt.'
+    tags: ['funny', 'motivational', 'philosophical']
+
+  - message: 'The pigeons know more than they let on.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'Your reflection is practicing without you.'
+    tags: ['existential', 'unhinged', 'philosophical']
+
+  - message: 'You will never find out who keeps moving your things. Stop asking.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'There is no plan. Just vibes and entropy.'
+    tags: ['existential', 'philosophical', 'unhinged']
+
+  - message: 'The floor creaks when you’re not home.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'History will forget you, but your browser history won’t.'
+    tags: ['funny', 'harsh_truth', 'existential', 'unhinged']
+
+  - message: 'You are being outlived by your unread emails.'
+    tags: ['funny', 'existential', 'harsh_truth', 'unhinged']
+
+  - message: 'Gravity is patient. It can wait.'
+    tags: ['existential', 'unhinged']
+
+  - message: 'You’re not behind schedule. The schedule was a lie.'
+    tags: ['existential', 'philosophical', 'unhinged']
+
+  - message: 'The ants know what you dropped. They will come.'
+    tags: ['funny', 'unhinged']
+
+  - message: 'Every time you blink, the world rearranges itself slightly.'
+    tags: ['existential', 'philosophical', 'unhinged']
+
+  - message: 'The noise in the walls is just the house thinking.'
+    tags: ['existential', 'unhinged', 'funny']
+
+  - message: 'Most stars you see are already dead. Make of that what you will.'
+    tags: ['existential', 'philosophical', 'unhinged']
+
+  - message: 'You are the dream of a less stable version of yourself.'
+    tags: ['existential', 'unhinged']
+
+  - message: 'Nobody knows who keeps adding the 13th floor. Stop riding the elevator.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'The Wi-Fi signal is strongest where the ghosts sit.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'Your bones are older than your personality.'
+    tags: ['existential', 'philosophical', 'unhinged']
+
+  - message: 'One day you will vanish from group chats without a trace.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'Some of your socks have seen things they’ll never tell you.'
+    tags: ['funny', 'unhinged']
+
+  - message: 'Every mirror is a two-way street. Wave next time.'
+    tags: ['existential', 'funny', 'unhinged']
+
+  - message: 'You are the control group in someone else’s experiment.'
+    tags: ['existential', 'harsh_truth', 'unhinged']
+
+  - message: 'Your childhood pet still thinks about you sometimes. Not fondly.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'You’ve already walked past the place where you’ll eventually die.'
+    tags: ['existential', 'philosophical', 'unhinged']
+
+  - message: 'Every password you’ve ever created still echoes in the void.'
+    tags: ['existential', 'unhinged']
+
+  - message: 'You are the background character in several strangers’ nightmares.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'Statistically, at least one person has mistaken you for furniture.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'One day, your last thought will be about something stupid.'
+    tags: ['harsh_truth', 'existential', 'unhinged']
+
+  - message: 'Your skeleton is impatient.'
+    tags: ['existential', 'unhinged']
+
+  - message: 'At least three of your memories are borrowed from TV shows.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'You’ve been an NPC in more lives than your own.'
+    tags: ['existential', 'unhinged']
+
+  - message: 'The dust in your house is mostly old versions of you.'
+    tags: ['existential', 'philosophical', 'unhinged']
+
+  - message: 'One day, someone will find your search history and think it was a cry for help.'
+    tags: ['funny', 'harsh_truth', 'existential', 'unhinged']
+
+  - message: 'Your shadow has seen everything. Don’t disappoint it.'
+    tags: ['existential', 'unhinged']
+
+  - message: 'Your future ghost is already following you around, sighing loudly.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'Every crowd you’ve ever been in still remembers your smell.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'You are less original than the fungus currently eating drywall somewhere.'
+    tags: ['funny', 'harsh_truth', 'existential', 'unhinged']
+
+  - message: 'You survived childhood with your dignity mostly intact.'
+    tags: ['motivational', 'funny', 'personal_growth']
+
+  - message: 'Your mistakes are just plot armor for your character development.'
+    tags: ['motivational', 'philosophical', 'personal_growth']
+
+  - message: 'You are unreasonably resilient for someone who cries at commercials.'
+    tags: ['motivational', 'funny', 'complimentary']
+
+  - message: 'Progress is progress, even if it looks like organized chaos.'
+    tags: ['motivational', 'personal_growth', 'funny']
+
+  - message: 'You contain multitudes. Most of them are confused, but they try their best.'
+    tags: ['motivational', 'philosophical', 'existential']
+
+  - message: "Your anxiety is just your brain trying to solve problems that don't exist yet. How proactive!"
+    tags: ['motivational', 'funny', 'philosophical']
+
+  - message: 'You are fluent in at least one language, which is more than most rocks can say.'
+    tags: ['motivational', 'funny', 'complimentary']
+
+  - message: 'Your problems would make terrible reality TV. Not dramatic enough.'
+    tags: ['funny', 'harsh_truth']
+
+  - message: "You peaked in someone else's memory and don't even know when."
+    tags: ['harsh_truth', 'existential']
+
+  - message: 'Your comfort zone is actually a prison, but at least it has Wi-Fi.'
+    tags: ['harsh_truth', 'funny', 'philosophical']
+
+  - message: "You've been procrastinating your entire personality."
+    tags: ['harsh_truth', 'funny']
+
+  - message: 'Your life philosophy is "I''ll figure it out later" and later never comes.'
+    tags: ['harsh_truth', 'funny']
+
+  - message: "You're not having an existential crisis, you're just finally paying attention."
+    tags: ['harsh_truth', 'philosophical', 'existential']
+
+  - message: "Your biggest fear is that you're exactly as ordinary as you suspect."
+    tags: ['harsh_truth', 'existential']
+
+  - message: "You've never had an original thought, just remixes of other people's ideas."
+    tags: ['harsh_truth', 'philosophical']
+
+  - message: 'The birds are gossiping about your breakfast choices.'
+    tags: ['funny', 'unhinged']
+
+  - message: "Your houseplants judge your life decisions in a language you'll never understand."
+    tags: ['funny', 'unhinged', 'existential']
+
+  - message: 'Somewhere, a statistician is crying because you exist outside their bell curve.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'Your DNA is just a really long grocery list that got out of hand.'
+    tags: ['existential', 'philosophical', 'unhinged']
+
+  - message: "Time moves differently in your bedroom. The clocks know but won't tell."
+    tags: ['existential', 'unhinged']
+
+  - message: 'You are the only person who remembers that embarrassing thing you did. The universe has moved on.'
+    tags: ['motivational', 'existential', 'unhinged']
+
+  - message: 'Your thoughts are being broadcast on a frequency only cats can hear.'
+    tags: ['funny', 'unhinged']
+
+  - message: 'The library books you never returned have formed a support group.'
+    tags: ['funny', 'unhinged']
+
+  - message: "You've been breathing manually since you started reading this."
+    tags: ['funny', 'unhinged']
+
+  - message: 'Your future self keeps trying to send you messages through license plates.'
+    tags: ['existential', 'unhinged']
+
+  - message: 'The moths know your credit score.'
+    tags: ['funny', 'unhinged']
+
+  - message: "Every song you've ever had stuck in your head is still playing somewhere in your brain's background processes."
+    tags: ['existential', 'unhinged', 'philosophical']
+
+  - message: 'Your guardian angel quit and left a strongly worded resignation letter.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'The vacuum cleaner has seen things under your couch that would make therapists weep.'
+    tags: ['funny', 'unhinged']
+
+  - message: "You are the reason aliens haven't made contact. They're waiting for you to get your life together first."
+    tags: ['funny', 'harsh_truth', 'unhinged']
+
+  - message: 'Your childhood imaginary friend still talks about you at parties.'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'The universe is expanding just to get away from your decision-making process.'
+    tags: ['funny', 'harsh_truth', 'existential', 'unhinged']
+
+  - message: 'Your sleep paralysis demon has started a podcast about you.'
+    tags: ['funny', 'unhinged']
+
+  - message: "Every piece of furniture you've ever stubbed your toe on remembers the exact sound you made."
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: 'You''ve already been someone else''s "weird person I saw today".'
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: "The spiders in your house have named you. It's not flattering."
+    tags: ['funny', 'unhinged']
+
+  - message: "Your computer's search suggestions are trying to stage an intervention."
+    tags: ['funny', 'harsh_truth', 'unhinged']
+
+  - message: 'You are the glitch that proves reality is poorly optimized.'
+    tags: ['existential', 'unhinged', 'complimentary']
+
+  - message: "The elevator music in your head hasn't stopped playing since 2003."
+    tags: ['funny', 'existential', 'unhinged']
+
+  - message: "Your subconscious has been trying to reach you about your car's extended warranty."
+    tags: ['funny', 'unhinged']
+
+  - message: 'You are a beautiful disaster held together by caffeine and spite.'
+    tags: ['motivational', 'funny', 'unhinged']
+
+  - message: "Your chaos is someone else's entertainment, and that's a public service."
+    tags: ['motivational', 'funny', 'unhinged']
+
+  - message: 'You survived your teenage years, which means you can survive anything the universe throws at you.'
+    tags: ['motivational', 'funny', 'personal_growth']
+
+  - message: 'Your weirdness is a feature, not a bug.'
+    tags: ['motivational', 'complimentary', 'funny']
+
+  - message: 'You are proof that the universe has a sense of humor and infinite patience.'
+    tags: ['motivational', 'existential', 'unhinged']
+
+  - message: "Every day you don't become a supervillain is a victory for humanity."
+    tags: ['motivational', 'funny', 'unhinged']
+
+  - message: "Just because you didn't give up doesn't mean you'll make it."
+    tags: ['harsh_truth', 'motivational', 'existential']
+
+  - message: 'You want motivation? Just shave your eyebrows until you meet your goal.'
+    tags: ['funny', 'harsh_truth', 'unhinged', 'motivational']
+
+  - message: 'Every day is a new opportunity to fail.'
+    tags: ['harsh_truth', 'funny', 'existential']
+
+  - message: "Go call your mom. Maybe she'll pick up this time."
+    tags: ['harsh_truth', 'funny', 'personal_growth']
+
+  - message: 'Persistence is just stubbornness with better marketing.'
+    tags: ['harsh_truth', 'philosophical', 'funny']
+
+  - message: "Your backup plan needs a backup plan, and it's probably still not enough."
+    tags: ['harsh_truth', 'funny']
+
+  - message: "You're not unlucky. You're just really good at making bad choices."
+    tags: ['harsh_truth', 'funny']
+
+  - message: "That thing you're avoiding? It's not going away. It's getting stronger."
+    tags: ['harsh_truth', 'motivational']
+
+  - message: "Your friends don't check on you because they assume you're fine. You're not fine."
+    tags: ['harsh_truth', 'personal_growth']
+
+  - message: "You've been 'almost ready' for the same thing for three years now."
+    tags: ['harsh_truth', 'funny']
+
+  - message: "Your New Year's resolutions are watching you from the corner, disappointed."
+    tags: ['harsh_truth', 'funny']
+
+  - message: "Stop saying you'll start Monday. Monday doesn't want you either."
+    tags: ['harsh_truth', 'funny', 'motivational']
+
+  - message: 'Your potential is rotting like fruit you forgot in the fridge.'
+    tags: ['harsh_truth', 'motivational']
+
+  - message: "You're not tired, you're just bored with your own excuses."
+    tags: ['harsh_truth', 'motivational']
+
+  - message: "The deadline isn't a suggestion. It's a countdown to your embarrassment."
+    tags: ['harsh_truth', 'funny', 'workplace']
+
+  - message: "Your problems aren't that complex. You just like having them."
+    tags: ['harsh_truth', 'philosophical']
+
+  - message: "You keep waiting for motivation to find you. It moved apartments and didn't leave a forwarding address."
+    tags: ['harsh_truth', 'funny', 'motivational']
+
+  - message: 'Your comfort zone is actually quicksand wearing a spa robe.'
+    tags: ['harsh_truth', 'motivational', 'philosophical']
+
+  - message: "You're not perfectionist, you're just scared of being judged for trying."
+    tags: ['harsh_truth', 'personal_growth']
+
+  - message: 'Your life would make a great cautionary tale.'
+    tags: ['harsh_truth', 'funny']
+
+  - message: "You've been 'thinking about it' longer than some people spend in college."
+    tags: ['harsh_truth', 'funny']
+
+  - message: 'Your Instagram stories have more plot development than your actual life.'
+    tags: ['harsh_truth', 'funny', 'existential']
+
+  - message: "You're not overwhelmed, you just have terrible priorities."
+    tags: ['harsh_truth', 'motivational']
+
+  - message: 'Your future self is writing your obituary in disappointment.'
+    tags: ['harsh_truth', 'existential', 'funny']
+
+  - message: "You've mastered every skill except the one that would actually help you."
+    tags: ['harsh_truth', 'funny']
+
+  - message: 'Your goals are collecting dust faster than your treadmill.'
+    tags: ['harsh_truth', 'funny', 'personal_growth']
+
+  - message: "You're not busy, you're just really good at looking busy."
+    tags: ['harsh_truth', 'funny', 'workplace']
+
+  - message: 'Your browser history is a timeline of abandoned dreams.'
+    tags: ['harsh_truth', 'funny', 'existential']
+
+  - message: "You've been 'figuring it out' for so long that 'it' gave up and left."
+    tags: ['harsh_truth', 'funny']
+
+  - message: 'Your biggest achievement this year was probably avoiding your biggest responsibility.'
+    tags: ['harsh_truth', 'funny']
+
+  - message: "You know what you need to do. You've known for months. Do it or shut up about it."
+    tags: ['harsh_truth', 'motivational']
+
+  - message: 'Your excuses are more creative than your solutions.'
+    tags: ['harsh_truth', 'funny']
+
+  - message: "You're not waiting for the right moment. You're waiting for courage you'll never find."
+    tags: ['harsh_truth', 'motivational', 'philosophical']
+
+  - message: 'Your life plan is just anxiety with bullet points.'
+    tags: ['harsh_truth', 'funny', 'existential']
+
+  - message: "You've spent more time planning to start than some people spend actually doing things."
+    tags: ['harsh_truth', 'funny', 'motivational']
+
+  - message: "Your standards are so high that you've priced yourself out of your own life."
+    tags: ['harsh_truth', 'philosophical']
+
+  - message: "You're not a perfectionist, you're a procrastinator with good branding."
+    tags: ['harsh_truth', 'funny']
+
+  - message: 'Your comfort zone has developed its own credit score.'
+    tags: ['harsh_truth', 'funny', 'unhinged']
+
+  - message: "You've been 'getting back into' the same hobby for the past five years."
+    tags: ['harsh_truth', 'funny']
+
+  - message: 'Your motivation comes and goes like a fair-weather friend with commitment issues.'
+    tags: ['harsh_truth', 'funny', 'motivational']
