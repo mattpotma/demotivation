@@ -250,7 +250,7 @@ export class NotificationService {
       // Create notification channel with silent settings
       const channelId = await notifee.createChannel({
         id: 'demotivation',
-        name: 'Demotivation Messages',
+        name: '(de)motivation Messages',
         importance: AndroidImportance.LOW,
         vibration: false,
       });
@@ -259,7 +259,7 @@ export class NotificationService {
       await notifee.createTriggerNotification(
         {
           id: id.toString(),
-          title: '🎯 Demotivation',
+          title: '(de)motivation',
           body: messageContent,
           android: {
             channelId,
